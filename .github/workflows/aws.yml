@@ -46,5 +46,5 @@ jobs:
       - name: Deploy new version
         run: |
           aws elasticbeanstalk update-environment \
-            --environment-name "prd" \
+            --environment-name "Arafet-ferdjani-env" \
             --version-label "${{ github.sha }}"
