@@ -39,12 +39,12 @@ jobs:
       - name: Create new application version
         run: |
           aws elasticbeanstalk create-application-version \
-            --application-name "arafet-ferdjani" \
+            --application-name arafet-ferdjani \
             --version-label "${{ github.sha }}" \
             --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="portfolio-${{ github.sha }}.zip"
 
       - name: Deploy new version
         run: |
           aws elasticbeanstalk update-environment \
-            --environment-name "Arafet-ferdjani-env" \
+            --environment-name Arafet-ferdjani-env \
             --version-label "${{ github.sha }}"
