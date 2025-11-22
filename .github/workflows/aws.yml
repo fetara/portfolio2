@@ -1,4 +1,4 @@
-name: Deploy portfolio Arafet Ferdjani to AWS Elastic Beanstalk v1
+name: Deploy portfolio Arafet Ferdjani to AWS Elastic Beanstalk v2
 on:
   push:
     branches:
