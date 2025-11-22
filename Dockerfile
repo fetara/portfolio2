@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=builder /app/target/*.jar portfolio.jar
 
 # Exposer le port Spring Boot
-EXPOSE 8080
+EXPOSE 5000
 
 # Démarrage de l'application
 ENTRYPOINT ["java", "-jar", "/app/portfolio.jar"]
