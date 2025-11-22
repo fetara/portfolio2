@@ -1,10 +1,8 @@
-name: Deploy to AWS Elastic Beanstalk
-
+name: Deploy portfolio Arafet Ferdjani to AWS Elastic Beanstalk
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -41,12 +39,12 @@ jobs:
       - name: Create new application version
         run: |
           aws elasticbeanstalk create-application-version \
-            --application-name "${{ secrets.EB_APP_NAME }}" \
+            --application-name "arafet-ferdjani" \
             --version-label "${{ github.sha }}" \
             --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="portfolio-${{ github.sha }}.zip"
 
       - name: Deploy new version
         run: |
           aws elasticbeanstalk update-environment \
-            --environment-name "${{ secrets.EB_ENV_NAME }}" \
+            --environment-name "prd" \
             --version-label "${{ github.sha }}"
