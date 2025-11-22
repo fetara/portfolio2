@@ -36,14 +36,14 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
-        run: aws s3 cp deploy/application.zip s3://${{ secrets.S3_BUCKET }}/application-${{ github.sha }}.zip
+        run: aws s3 cp deploy/portfolio.zip s3://${{ secrets.S3_BUCKET }}/portfolio-${{ github.sha }}.zip
 
       - name: Create new application version
         run: |
           aws elasticbeanstalk create-application-version \
             --application-name "${{ secrets.EB_APP_NAME }}" \
             --version-label "${{ github.sha }}" \
-            --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="application-${{ github.sha }}.zip"
+            --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="portfolio-${{ github.sha }}.zip"
 
       - name: Deploy new version
         run: |
