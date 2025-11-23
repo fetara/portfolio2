@@ -62,22 +62,22 @@ flowchart TD
 ```mermaid
 graph TD
 
-    A[Projet Portfolio] --> B[src/main/java<br/>Code Spring Boot]
-    A --> C[src/main/resources<br/>Configuration / Templates]
-    A --> D[pom.xml<br/>Gestion des dépendances Maven]
-    A --> E[Dockerfile<br/>Optionnel pour déploiement Docker]
-    A --> F[.github/workflows/deploy.yml<br/>Pipeline CI/CD]
-    A --> G[README.md<br/>Documentation du projet]
+    A["Projet Portfolio"] --> B["src/main/java<br/>Code Spring Boot"]
+    A --> C["src/main/resources<br/>Configuration / Templates"]
+    A --> D["pom.xml<br/>Gestion des dépendances Maven"]
+    A --> E["Dockerfile<br/>Optionnel pour déploiement Docker"]
+    A --> F[".github/workflows/deploy.yml<br/>Pipeline CI/CD"]
+    A --> G["README.md<br/>Documentation du projet"]
 ```
 
 ##Architecture Spring Boot interne
 ```mermaid
 flowchart LR
 
-    A[Controller<br/>Endpoints API] --> B[Service<br/>Logique Métier]
-    B --> C[PDF Generator<br/>iTextPDF]
-    B --> D[Repository<br/>Accès Données (optionnel)]
-    A --> E[Models / DTO]
+    A["Controller<br/>Endpoints API"] --> B["Service<br/>Logique Métier"]
+    B --> C["PDF Generator<br/>iTextPDF"]
+    B --> D["Repository<br/>Accès Données (optionnel)"]
+    A --> E["Models / DTO"]
 ```
 
 ##Déploiement AWS Elastic Beanstalk
