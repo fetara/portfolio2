@@ -1,5 +1,5 @@
 
-#Portfolio – Spring Boot (Java 21) | AWS Elastic Beanstalk | CI/CD GitHub Actions
+# Portfolio – Spring Boot (Java 21) | AWS Elastic Beanstalk | CI/CD GitHub Actions
 ![Java](https://img.shields.io/badge/Java-21-red?logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?logo=springboot)
 ![Maven](https://img.shields.io/badge/Maven-Build-blue?logo=apachemaven)
@@ -35,7 +35,7 @@ flowchart TD
 ```
 
 
-##Fonctionnalités principales
+## Fonctionnalités principales
 
 - Développé avec Spring Boot 3 / Java 21
 - Expositions d’API REST pour les sections du portfolio
@@ -44,21 +44,21 @@ flowchart TD
 - Déploiement automatisé via GitHub Actions
 - Hébergement scalable sous AWS Elastic Beanstalk
 
-##Technologies utilisées
-###Backend
+## Technologies utilisées
+### Backend
 
 - Java 21
 - Spring Boot 3
 - iTextPDF
 - Maven
 
-###Cloud / DevOps
+### Cloud / DevOps
 - AWS Elastic Beanstalk
 - Amazon S3
 - AWS CLI & EB CLI
 - GitHub Actions
 
-##Structure du projet
+## Structure du projet
 ```mermaid
 graph TD
 
@@ -70,7 +70,7 @@ graph TD
     A --> G["README.md<br/>Documentation du projet"]
 ```
 
-##Architecture Spring Boot interne
+## Architecture Spring Boot interne
 ```mermaid
 flowchart LR
 
@@ -80,24 +80,24 @@ flowchart LR
     A --> E["Models / DTO"]
 ```
 
-##Déploiement AWS Elastic Beanstalk
-###Préparation AWS
+## Déploiement AWS Elastic Beanstalk
+### Préparation AWS
 
 - Créer une application Elastic Beanstalk
 - Créer un environnement (Java ou Docker)
 - Configurer un bucket S3 dédié
 - Créer un utilisateur IAM CI/CD avec : AWSElasticBeanstalkFullAccess, AmazonS3FullAccess
 
-```mermaid
+
 | Secret                  | Description            |
-| ----------------------- | ---------------------- |
-| `AWS_ACCESS_KEY_ID`     | Clé IAM                |
-| `AWS_SECRET_ACCESS_KEY` | Secret IAM             |
-| `AWS_REGION`            | Exemple : `eu-west-3`  |
+| :--------------- |:---------------:|
+| `AWS_ACCESS_KEY_ID`     | "Clé IAM"              |
+| `AWS_SECRET_ACCESS_KEY` | "Secret IAM"           |
+| `AWS_REGION`            | "Exemple : `eu-west-3`"  |
 | `EB_APP_NAME`           | Nom Elastic Beanstalk  |
 | `EB_ENV_NAME`           | Nom de l’environnement |
-```
-##Pipeline GitHub Actions (déploiement automatique)
+
+## Pipeline GitHub Actions (déploiement automatique)
 
 ```yaml
 name: Deploy to AWS Elastic Beanstalk
