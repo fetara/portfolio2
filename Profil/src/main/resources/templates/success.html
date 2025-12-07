@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            max-width: 600px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 50px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .success-header h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .welcome-message {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .success-body {
+            padding: 40px 30px;
+        }
+
+        .user-info {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .user-info h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-value {
+            color: #333;
+            flex: 1;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #333;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .notification {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-icon {
+            font-size: 24px;
+        }
+
+        .notification-text {
+            flex: 1;
+            color: #856404;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .success-header h1 {
+                font-size: 26px;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-header">
+            <div class="success-icon">✨</div>
+            <h1>Authentification réussie !</h1>
+            <p class="welcome-message">Bienvenue <span id="userName">utilisateur</span></p>
+        </div>
+        
+        <div class="success-body">
+            <div class="notification">
+                <span class="notification-icon">ℹ️</span>
+                <div class="notification-text">
+                    Vous êtes maintenant connecté à votre espace personnel. Profitez de toutes les fonctionnalités disponibles !
+                </div>
+            </div>
+
+            <div class="user-info fade-in">
+                <h2>📋 Vos informations</h2>
+                <div class="info-item">
+                    <span class="info-label">👤 Nom complet</span>
+                    <span class="info-value" id="fullName">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">📧 Email</span>
+                    <span class="info-value" id="userEmail">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">🕐 Connexion</span>
+                    <span class="info-value" id="loginTime">-</span>
+                </div>
+            </div>
+
+            <div class="stats-container fade-in">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Projets</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-label">Favoris</div>
+                    <div class="stat-value">8</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-label">Messages</div>
+                    <div class="stat-value">3</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a href="/" class="btn btn-primary">🏠 Accueil</a>
+                <a href="/home" class="btn btn-secondary">📁 Portfolio</a>
+                <button onclick="logout()" class="btn btn-danger">🚪 Déconnexion</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Récupérer les informations de l'utilisateur
+        function loadUserInfo() {
+            const userJson = localStorage.getItem('user');
+            
+            if (!userJson) {
+                // Si pas d'utilisateur connecté, rediriger vers login
+                window.location.href = '/login';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userJson);
+                
+                // Afficher le prénom dans le message de bienvenue
+                const userName = document.getElementById('userName');
+                if (user.firstname) {
+                    userName.textContent = user.firstname;
+                }
+
+                // Afficher le nom complet
+                const fullName = document.getElementById('fullName');
+                const fullNameStr = [user.firstname, user.lastname].filter(Boolean).join(' ') || 'Non renseigné';
+                fullName.textContent = fullNameStr;
+
+                // Afficher l'email
+                const userEmail = document.getElementById('userEmail');
+                userEmail.textContent = user.email || 'Non renseigné';
+
+                // Afficher l'heure de connexion
+                const loginTime = document.getElementById('loginTime');
+                if (user.loginTime) {
+                    const date = new Date(user.loginTime);
+                    const options = {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    };
+                    loginTime.textContent = date.toLocaleDateString('fr-FR', options);
+                } else {
+                    loginTime.textContent = new Date().toLocaleDateString('fr-FR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                }
+
+                // Animation d'apparition
+                document.querySelectorAll('.fade-in').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '0';
+                        el.style.animation = 'fadeIn 0.5s ease-in forwards';
+                    }, index * 200);
+                });
+
+            } catch (error) {
+                console.error('Erreur lors du chargement des informations utilisateur:', error);
+                window.location.href = '/login';
+            }
+        }
+
+        // Fonction de déconnexion
+        function logout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                // Supprimer les informations de l'utilisateur
+                localStorage.removeItem('user');
+                
+                // Animation de sortie
+                document.querySelector('.success-container').style.animation = 'slideOut 0.3s ease-out';
+                
+                // Rediriger vers la page de login après l'animation
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 300);
+            }
+        }
+
+        // Ajouter l'animation de sortie au CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOut {
+                to {
+                    opacity: 0;
+                    transform: scale(0.9);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Charger les informations au chargement de la page
+        window.addEventListener('load', loadUserInfo);
+
+        // Empêcher le retour arrière si l'utilisateur est connecté
+        window.addEventListener('popstate', function(event) {
+            const user = localStorage.getItem('user');
+            if (user) {
+                history.pushState(null, null, window.location.href);
+            }
+        });
+
+        // Initialiser l'historique
+        history.pushState(null, null, window.location.href);
+    </script>
+</body>
+</html>
