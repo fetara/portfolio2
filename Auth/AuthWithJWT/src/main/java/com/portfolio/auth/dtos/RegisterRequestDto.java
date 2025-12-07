@@ -14,13 +14,7 @@ public class RegisterRequestDto {
 
 	private User user;
 
-	public User getUser() {
-		return user;
-	}
 
-	@PostMapping("")
-	public ResponseEntity<RegisterResponseDto> register(AccountController accountController) {
-		return accountController.accountService.register(getUser());
-	}
+
 
 }
