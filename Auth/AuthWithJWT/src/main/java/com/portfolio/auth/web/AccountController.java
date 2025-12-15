@@ -36,4 +36,9 @@ public class AccountController {
 	public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
 		return accountService.login(loginRequest.getEmail(), loginRequest.getPassword());		
 	}
+	
+	@GetMapping("/nice")
+	public String nice() {
+		return "Nice Job!";
+	}
 }
