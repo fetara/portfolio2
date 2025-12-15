@@ -16,13 +16,14 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Build Spring Boot App
+      - name: Build Spring Boot App portfolio
+        working-directory: ./Profil
         run: mvn clean package -DskipTests
 
       - name: Generate deployment package
         run: |
           mkdir deploy
-          cp target/*.jar deploy/portfolio.jar
+          cp Profil/target/*.jar deploy/portfolio.jar
           cd deploy
           zip -r portfolio.zip .
 
