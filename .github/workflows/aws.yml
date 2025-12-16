@@ -1,4 +1,4 @@
-name: Deploy Portfolio & Auth to AWS (Smart Deploy)
+name: Deploy Portfolio & Auth to AWS Elastic Beanstalk
 
 on:
   push:
@@ -6,38 +6,9 @@ on:
       - main
 
 jobs:
-  detect-changes:
-    name: Detect Changes
-    runs-on: ubuntu-latest
-    outputs:
-      portfolio: ${{ steps.changes.outputs.portfolio }}
-      auth: ${{ steps.changes.outputs.auth }}
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-
-      - name: Check for changes
-        id: changes
-        run: |
-          if git diff --name-only HEAD^ HEAD | grep -q "^Profil/"; then
-            echo "portfolio=true" >> $GITHUB_OUTPUT
-          else
-            echo "portfolio=false" >> $GITHUB_OUTPUT
-          fi
-          
-          if git diff --name-only HEAD^ HEAD | grep -q "^Auth/AuthWithJWT/"; then
-            echo "auth=true" >> $GITHUB_OUTPUT
-          else
-            echo "auth=false" >> $GITHUB_OUTPUT
-          fi
-
   deploy-portfolio:
     name: Deploy Portfolio App
     runs-on: ubuntu-latest
-    needs: detect-changes
-    if: needs.detect-changes.outputs.portfolio == 'true'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -47,6 +18,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: 'maven'
 
       - name: Build Portfolio App
         working-directory: ./Profil
@@ -85,8 +57,7 @@ jobs:
   deploy-auth:
     name: Deploy Auth App
     runs-on: ubuntu-latest
-    needs: detect-changes
-    if: needs.detect-changes.outputs.auth == 'true'
+    needs: deploy-portfolio
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -96,8 +67,9 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: 'maven'
 
-      - name: Build Auth App
+      - name: Build Auth App (correct path)
         working-directory: ./Auth/AuthWithJWT
         run: mvn clean package -DskipTests
 
@@ -121,12 +93,12 @@ jobs:
       - name: Create Auth application version
         run: |
           aws elasticbeanstalk create-application-version \
-            --application-name arafet-ferdjani \
+            --application-name arafet-ferdjani-auth \
             --version-label "auth-${{ github.sha }}" \
             --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="auth-${{ github.sha }}.zip"
 
       - name: Deploy Auth
         run: |
           aws elasticbeanstalk update-environment \
-            --environment-name Arafet-ferdjani-env \
+            --environment-name Arafet-ferdjani-auth-env \
             --version-label "auth-${{ github.sha }}"

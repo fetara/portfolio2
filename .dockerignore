@@ -1,0 +1,29 @@
+# Ignorer les anciens projets et fichiers inutiles
+Auth/pom.xml
+Auth/src
+Auth/target
+Auth/.settings
+Auth/.classpath
+Auth/.project
+Auth/mvnw
+Auth/mvnw.cmd
+Auth/.mvn
+
+# Ignorer les métadonnées Eclipse
+.metadata
+**/.settings
+**/.classpath
+**/.project
+
+# Ignorer les builds
+**/target
+**/.DS_Store
+
+# Git
+.git
+.gitignore
+.github
+
+# Documentation
+*.md
+*.pdf
