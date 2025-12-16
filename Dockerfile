@@ -23,7 +23,7 @@ COPY --from=builder /app/Profil/target/*.jar portfolio.jar
 COPY --from=builder /app/Auth/target/*.jar auth.jar
 
 # Exposer les ports
-EXPOSE 5000 8081
+EXPOSE 5000 5001
 
 # Démarrer les deux applications
 CMD ["sh", "-c", "java -jar /app/portfolio.jar & java -jar /app/auth.jar"]
