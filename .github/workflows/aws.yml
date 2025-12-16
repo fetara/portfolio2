@@ -6,54 +6,6 @@ on:
       - main
 
 jobs:
-  deploy-portfolio:
-    name: Deploy Portfolio App
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
-
-      - name: Build Portfolio App
-        working-directory: ./Profil
-        run: mvn clean package -DskipTests
-
-      - name: Generate Portfolio deployment package
-        run: |
-          mkdir deploy-portfolio
-          cp Profil/target/*.jar deploy-portfolio/portfolio.jar
-          cd deploy-portfolio
-          zip -r portfolio.zip .
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Upload Portfolio to S3
-        run: aws s3 cp deploy-portfolio/portfolio.zip s3://${{ secrets.S3_BUCKET }}/portfolio-${{ github.sha }}.zip
-
-      - name: Create Portfolio application version
-        run: |
-          aws elasticbeanstalk create-application-version \
-            --application-name arafet-ferdjani \
-            --version-label "portfolio-${{ github.sha }}" \
-            --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="portfolio-${{ github.sha }}.zip"
-
-      - name: Deploy Portfolio
-        run: |
-          aws elasticbeanstalk update-environment \
-            --environment-name Arafet-ferdjani-env \
-            --version-label "portfolio-${{ github.sha }}"
-
   deploy-auth:
     name: Deploy Auth App
     runs-on: ubuntu-latest
@@ -102,3 +54,52 @@ jobs:
           aws elasticbeanstalk update-environment \
             --environment-name Arafet-ferdjani-env \
             --version-label "auth-${{ github.sha }}"
+
+  deploy-portfolio:
+    name: Deploy Portfolio App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build Portfolio App
+        working-directory: ./Profil
+        run: mvn clean package -DskipTests
+
+      - name: Generate Portfolio deployment package
+        run: |
+          mkdir deploy-portfolio
+          cp Profil/target/*.jar deploy-portfolio/portfolio.jar
+          cd deploy-portfolio
+          zip -r portfolio.zip .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload Portfolio to S3
+        run: aws s3 cp deploy-portfolio/portfolio.zip s3://${{ secrets.S3_BUCKET }}/portfolio-${{ github.sha }}.zip
+
+      - name: Create Portfolio application version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name arafet-ferdjani \
+            --version-label "portfolio-${{ github.sha }}" \
+            --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="portfolio-${{ github.sha }}.zip"
+
+      - name: Deploy Portfolio
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name Arafet-ferdjani-env \
+            --version-label "portfolio-${{ github.sha }}"
+
