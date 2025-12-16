@@ -12,7 +12,7 @@ COPY Auth/AuthWithJWT/src ./Auth/AuthWithJWT/src
 
 # Compiler les applications
 RUN mvn -f Profil/pom.xml clean package -DskipTests
-RUN mvn -f Auth/AuthWithJWT/pom.xml clean package -DskipTests
+RUN mvn -f Auth/pom.xml clean package -DskipTests
 
 # Étape 2 : Image finale en Java 21
 FROM eclipse-temurin:21-jdk
@@ -20,7 +20,7 @@ WORKDIR /app
 
 # Copier les JARs compilés
 COPY --from=builder /app/Profil/target/*.jar portfolio.jar
-COPY --from=builder /app/Auth/AuthWithJWT/target/*.jar auth.jar
+COPY --from=builder /app/Auth/target/*.jar auth.jar
 
 # Exposer les ports
 EXPOSE 5000 8081
