@@ -121,12 +121,12 @@ jobs:
       - name: Create Auth application version
         run: |
           aws elasticbeanstalk create-application-version \
-            --application-name arafet-ferdjani-auth \
+            --application-name arafet-ferdjani \
             --version-label "auth-${{ github.sha }}" \
             --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="auth-${{ github.sha }}.zip"
 
       - name: Deploy Auth
         run: |
           aws elasticbeanstalk update-environment \
-            --environment-name Arafet-ferdjani-auth-env \
+            --environment-name Arafet-ferdjani-env \
             --version-label "auth-${{ github.sha }}"
