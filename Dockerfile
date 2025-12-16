@@ -2,33 +2,28 @@
 FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 
-# Copier pom.xml et télécharger les dépendances
-COPY Auth/pom.xml ./Auth
-COPY Profil/pom.xml ./Profil
-
-#RUN mvn dependency:go-offline
-RUN mvn -f Auth/pom.xml clean package -DskipTests
-RUN mvn -f Profil/pom.xml clean package -DskipTests
+# Copier les fichiers pom.xml
+COPY Profil/pom.xml ./Profil/pom.xml
+COPY Auth/AuthWithJWT/pom.xml ./Auth/AuthWithJWT/pom.xml
 
 # Copier le code source
-COPY src ./src
+COPY Profil/src ./Profil/src
+COPY Auth/AuthWithJWT/src ./Auth/AuthWithJWT/src
 
-# Compiler l'application en Java 21
-#RUN mvn clean package -DskipTests
+# Compiler les applications
+RUN mvn -f Profil/pom.xml clean package -DskipTests
+RUN mvn -f Auth/pom.xml clean package -DskipTests
 
 # Étape 2 : Image finale en Java 21
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
-# Copier le JAR compilé
+# Copier les JARs compilés
 COPY --from=builder /app/Profil/target/*.jar portfolio.jar
-COPY --from=builder /app/Auth/target/*.jar Auth.jar
+COPY --from=builder /app/Auth/target/*.jar auth.jar
 
+# Exposer les ports
+EXPOSE 5000 8081
 
-# Exposer le port Spring Boot
-EXPOSE 5000
-EXPOSE 8081
-
-# Démarrage de l'application
-#ENTRYPOINT ["java", "-jar", "/app/portfolio.jar"]
-CMD ["sh", "-c", "java -jar /app/portfolio.jar & java -jar /app/Auth.jar"]
+# Démarrer les deux applications
+CMD ["sh", "-c", "java -jar /app/portfolio.jar & java -jar /app/auth.jar"]
