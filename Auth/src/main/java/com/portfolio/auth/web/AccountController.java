@@ -39,6 +39,6 @@ public class AccountController {
 	
 	@GetMapping("/nice")
 	public String nice() {
-		return "Nice Job Arafet.";
+		return "Nice Job Arafet!";
 	}
 }
