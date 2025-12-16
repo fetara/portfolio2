@@ -45,7 +45,7 @@ jobs:
       - name: Create Auth application version
         run: |
           aws elasticbeanstalk create-application-version \
-            --application-name arafet-ferdjani \
+            --application-name Arafet-Auth \
             --version-label "auth-${{ github.sha }}" \
             --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="auth-${{ github.sha }}.zip"
 
