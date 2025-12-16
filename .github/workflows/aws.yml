@@ -52,7 +52,7 @@ jobs:
       - name: Deploy Auth
         run: |
           aws elasticbeanstalk update-environment \
-            --environment-name Arafet-ferdjani-env \
+            --environment-name Arafet-ferdjani-auth \
             --version-label "auth-${{ github.sha }}"
 
   deploy-portfolio:
