@@ -4,11 +4,11 @@ WORKDIR /app
 
 # Copier les fichiers pom.xml
 COPY Profil/pom.xml ./Profil/pom.xml
-COPY Auth/AuthWithJWT/pom.xml ./Auth/AuthWithJWT/pom.xml
+COPY Auth/pom.xml ./Auth/pom.xml
 
 # Copier le code source
 COPY Profil/src ./Profil/src
-COPY Auth/AuthWithJWT/src ./Auth/AuthWithJWT/src
+COPY Auth/src ./Auth/src
 
 # Compiler les applications
 RUN mvn -f Profil/pom.xml clean package -DskipTests
