@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+
+            
+            
+jobs:
   deploy-portfolio:
     name: Deploy Portfolio App
     runs-on: ubuntu-latest
@@ -52,8 +56,6 @@ on:
             --environment-name Arafet-ferdjani-env \
             --version-label "portfolio-${{ github.sha }}"
             
-            
-jobs:
   deploy-auth:
     name: Deploy Auth App
     runs-on: ubuntu-latest
