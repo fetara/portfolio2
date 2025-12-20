@@ -4,57 +4,6 @@ on:
   push:
     branches:
       - main
-
-jobs:
-  deploy-auth:
-    name: Deploy Auth App
-    runs-on: ubuntu-latest
-    needs: deploy-portfolio
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
-
-      - name: Build Auth App (correct path)
-        working-directory: ./Auth
-        run: mvn clean package -DskipTests
-
-      - name: Generate Auth deployment package
-        run: |
-          mkdir deploy-auth
-          cp Auth/target/*.jar deploy-auth/auth.jar
-          cd deploy-auth
-          zip -r auth.zip .
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Upload Auth to S3
-        run: aws s3 cp deploy-auth/auth.zip s3://${{ secrets.S3_BUCKET }}/auth-${{ github.sha }}.zip
-
-      - name: Create Auth application version
-        run: |
-          aws elasticbeanstalk create-application-version \
-            --application-name Arafet-Auth \
-            --version-label "auth-${{ github.sha }}" \
-            --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="auth-${{ github.sha }}.zip"
-
-      - name: Deploy Auth
-        run: |
-          aws elasticbeanstalk update-environment \
-            --environment-name Arafet-ferdjani-auth \
-            --version-label "auth-${{ github.sha }}"
-
   deploy-portfolio:
     name: Deploy Portfolio App
     runs-on: ubuntu-latest
@@ -102,4 +51,57 @@ jobs:
           aws elasticbeanstalk update-environment \
             --environment-name Arafet-ferdjani-env \
             --version-label "portfolio-${{ github.sha }}"
+            
+            
+jobs:
+  deploy-auth:
+    name: Deploy Auth App
+    runs-on: ubuntu-latest
+    needs: deploy-portfolio
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build Auth App (correct path)
+        working-directory: ./Auth
+        run: mvn clean package -DskipTests
+
+      - name: Generate Auth deployment package
+        run: |
+          mkdir deploy-auth
+          cp Auth/target/*.jar deploy-auth/auth.jar
+          cd deploy-auth
+          zip -r auth.zip .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload Auth to S3
+        run: aws s3 cp deploy-auth/auth.zip s3://${{ secrets.S3_BUCKET }}/auth-${{ github.sha }}.zip
+
+      - name: Create Auth application version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name Arafet-Auth \
+            --version-label "auth-${{ github.sha }}" \
+            --source-bundle S3Bucket="${{ secrets.S3_BUCKET }}",S3Key="auth-${{ github.sha }}.zip"
+
+      - name: Deploy Auth
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name Arafet-Auth-env \
+            --version-label "auth-${{ github.sha }}"
+
+
 
