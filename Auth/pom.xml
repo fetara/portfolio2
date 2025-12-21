@@ -13,9 +13,9 @@
     </parent>
 
     <groupId>com.portfolio</groupId>
-    <artifactId>AuthWithJWT</artifactId>
+    <artifactId>auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>AuthWithJWT</name>
+    <name>auth</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
