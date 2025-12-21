@@ -81,4 +81,9 @@ public class AccountService implements IAccountService,UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		return userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Cette utilisateur n'existe pas!"));
 	}
+
+	@Override
+	public ResponseEntity<LoginResponseDto> getAccountById(String id) {
+		return null;
+	}
 }
