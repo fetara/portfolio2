@@ -3,9 +3,9 @@ FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 
 # Copier le pom et les sources
-COPY Auth/pom.xml ./pom.xml
+COPY pom.xml ./pom.xml
 RUN mvn dependency:go-offline
-COPY Auth/src ./src
+COPY src ./src
 
 # Build
 RUN mvn clean package -DskipTests
