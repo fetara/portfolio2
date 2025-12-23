@@ -29,6 +29,7 @@ jobs:
       - name: Generate Portfolio deployment package
         run: |
           mkdir deploy-portfolio
+          cp Profil/Dockerfile deploy-portfolio/Dockerfile
           cp Profil/target/*.jar deploy-portfolio/portfolio.jar
           cd deploy-portfolio
           zip -r portfolio.zip .
@@ -78,6 +79,7 @@ jobs:
       - name: Generate Auth deployment package
         run: |
           mkdir deploy-auth
+          cp Auth/Dockerfile deploy-auth/Dockerfile
           cp Auth/target/*.jar deploy-auth/auth.jar
           cd deploy-auth
           zip -r auth.zip .
