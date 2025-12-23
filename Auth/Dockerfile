@@ -5,7 +5,7 @@ WORKDIR /app
 # Copier le pom et les sources
 COPY Auth/pom.xml ./pom.xml
 RUN mvn dependency:go-offline
-COPY Auth/src ./src
+COPY src ./src
 
 # Build
 RUN mvn clean package -DskipTests
