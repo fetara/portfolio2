@@ -3,7 +3,7 @@ FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 
 # Copier le pom et les sources
-COPY pom.xml ./pom.xml
+COPY Profil/pom.xml ./pom.xml
 RUN mvn dependency:go-offline
 COPY src ./src
 
