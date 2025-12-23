@@ -5,7 +5,7 @@ WORKDIR /app
 # Copier le pom et les sources
 COPY Profil/pom.xml ./pom.xml
 RUN mvn dependency:go-offline
-COPY src ./src
+COPY Profil/src ./src
 
 # Build
 RUN mvn clean package -DskipTests
