@@ -2,6 +2,7 @@ package com.portfolio.auth.services;
 
 import java.util.Optional;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ public class AccountService implements IAccountService,UserDetailsService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	@Lazy
 	private final AuthenticationManager authenticationManager;
 
 	@Override
