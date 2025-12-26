@@ -39,13 +39,4 @@ public class AccountController {
 		return accountService.login(loginRequest.getEmail(), loginRequest.getPassword());		
 	}
 	
-	@GetMapping("/account?email={email}")
-	public UserDetails loadUserByUsername(@RequestParam String email) {
-		return accountService.loadUserByUsername(email);
-	}
-	
-	@GetMapping("/nice")
-	public String nice() {
-		return "Nice Job Arafet!";
-	}
 }

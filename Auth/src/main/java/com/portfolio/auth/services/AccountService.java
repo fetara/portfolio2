@@ -2,15 +2,11 @@ package com.portfolio.auth.services;
 
 import java.util.Optional;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +19,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AccountService implements IAccountService,UserDetailsService {
+public class AccountService implements IAccountService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
-	@Lazy
+
 	private final AuthenticationManager authenticationManager;
 
 	@Override
@@ -79,13 +75,4 @@ public class AccountService implements IAccountService,UserDetailsService {
 		}
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		return userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Cette utilisateur n'existe pas!"));
-	}
-
-	@Override
-	public ResponseEntity<LoginResponseDto> getAccountById(String id) {
-		return null;
-	}
 }
