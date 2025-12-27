@@ -1,0 +1,30 @@
+<div class="palette-container">
+  <h3 class="palette-title">
+    <i class="material-icons">widgets</i>
+    Composants
+  </h3>
+  <div
+    cdkDropList
+    id="palette"
+    [cdkDropListData]="availableComponents"
+    [cdkDropListConnectedTo]="['canvas']"
+    cdkDropListSortingDisabled
+    class="component-list">
+    <div 
+      class="component-item" 
+      *ngFor="let component of availableComponents" 
+      cdkDrag
+      [cdkDragData]="component">
+      <i class="material-icons component-icon">{{ getIcon(component.id) }}</i>
+      <span class="component-name">{{ component.name }}</span>
+      <div class="drag-hint">Glisser</div>
+    </div>
+  </div>
+  
+  <div class="palette-footer">
+    <p class="instruction">
+      <i class="material-icons">info</i>
+      Glissez les composants sur le canvas pour les ajouter
+    </p>
+  </div>
+</div>
