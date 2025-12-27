@@ -1,0 +1,159 @@
+<mat-toolbar color="primary">
+  <span>CMS Page Builder</span>
+  <span class="spacer"></span>
+  
+  <!-- Toolbar Controls -->
+  <button mat-icon-button 
+          [class.active]="snapToGrid"
+          (click)="toggleSnapToGrid()" 
+          matTooltip="Activer/Désactiver le snap to grid">
+    <mat-icon>grid_on</mat-icon>
+  </button>
+  
+  <button mat-icon-button [matMenuTriggerFor]="backgroundMenu" matTooltip="Changer l'arrière-plan">
+    <mat-icon>texture</mat-icon>
+  </button>
+  <mat-menu #backgroundMenu="matMenu">
+    <div class="background-menu" (click)="$event.stopPropagation()">
+      <mat-radio-group
+        class="background-type-radio"
+        [(ngModel)]="canvasBackground.type"
+        (ngModelChange)="canvasBackground.value = canvasBackground.type === 'color' ? '#f0f2f5' : ''">
+        <mat-label>Type :</mat-label>
+        <mat-radio-button value="color">Couleur</mat-radio-button>
+        <mat-radio-button value="image">Image</mat-radio-button>
+      </mat-radio-group>
+
+      <div *ngIf="canvasBackground.type === 'color'" class="background-input">
+        <mat-label>Couleur :</mat-label>
+        <input type="color" [(ngModel)]="canvasBackground.value">
+      </div>
+
+      <div *ngIf="canvasBackground.type === 'image'" class="background-input">
+        <mat-label>URL :</mat-label>
+        <input type="text" placeholder="URL de l'image" [(ngModel)]="canvasBackground.value">
+      </div>
+    </div>
+  </mat-menu>
+
+  <button mat-icon-button 
+          (click)="clearCanvas()" 
+          matTooltip="Effacer tout le canvas"
+          [disabled]="page.length === 0">
+    <mat-icon>delete_sweep</mat-icon>
+  </button>
+  
+  <span class="component-count">
+    <mat-icon>widgets</mat-icon>
+    {{ page.length }}
+  </span>
+</mat-toolbar>
+
+<mat-drawer-container class="builder-container">
+  <mat-drawer mode="side" opened class="palette-drawer">
+    <app-component-palette></app-component-palette>
+  </mat-drawer>
+  
+  <mat-drawer-content class="canvas-content" (click)="deselectComponent()">
+    <div
+      #canvasElement
+      cdkDropList
+      id="canvas"
+      [cdkDropListData]="page"
+      [cdkDropListConnectedTo]="['palette']"
+      cdkDropListSortingDisabled
+      (cdkDropListDropped)="drop($event)"
+      class="canvas"
+      [class.snap-grid]="snapToGrid"
+      [ngStyle]="getCanvasStyle()">
+      
+      <!-- Free positioning components -->
+      <div 
+        *ngFor="let item of page" 
+        class="canvas-item-free"
+        [class.selected]="isSelected(item)"
+        [ngStyle]="getComponentStyle(item)"
+        cdkDrag
+        cdkDragBoundary=".canvas"
+        (cdkDragMoved)="onDragMoved($event, item)"
+        (cdkDragEnded)="onDragEnded($event, item)"
+        (click)="selectComponent(item); $event.stopPropagation()">
+        
+        <!-- Drag Handle -->
+        <div class="drag-handle" cdkDragHandle>
+          <mat-icon>drag_indicator</mat-icon>
+        </div>
+        
+        <!-- Component Actions Menu -->
+        <div class="component-actions" *ngIf="isSelected(item)">
+          <button mat-icon-button 
+                  class="action-btn duplicate-btn"
+                  (click)="duplicateComponent(item); $event.stopPropagation()"
+                  matTooltip="Dupliquer">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+          <button mat-icon-button 
+                  class="action-btn front-btn"
+                  (click)="bringToFront(item); $event.stopPropagation()"
+                  matTooltip="Premier plan">
+            <mat-icon>flip_to_front</mat-icon>
+          </button>
+          <button mat-icon-button 
+                  class="action-btn back-btn"
+                  (click)="sendToBack(item); $event.stopPropagation()"
+                  matTooltip="Arrière plan">
+            <mat-icon>flip_to_back</mat-icon>
+          </button>
+        </div>
+        
+        <!-- Position indicator -->
+        <div class="position-indicator" *ngIf="isSelected(item)">
+          X: {{ item.x | number:'1.0-0' }} | Y: {{ item.y | number:'1.0-0' }}
+        </div>
+        
+        <!-- Component Content -->
+        <ng-container [ngSwitch]="item.id">
+          <app-text-view 
+            *ngSwitchCase="'text'" 
+            (remove)="removeItem(item.uniqueId)">
+          </app-text-view>
+          <app-image-view 
+            *ngSwitchCase="'image'" 
+            (remove)="removeItem(item.uniqueId)">
+          </app-image-view>
+          <app-button-view 
+            *ngSwitchCase="'button'" 
+            (remove)="removeItem(item.uniqueId)">
+          </app-button-view>
+          <div *ngSwitchDefault>{{ item.name }}</div>
+        </ng-container>
+      </div>
+      
+      <!-- Empty Canvas Message -->
+      <div *ngIf="page.length === 0" class="empty-canvas-message">
+        <div class="empty-icon">
+          <mat-icon>touch_app</mat-icon>
+        </div>
+        <h3>Commencez à créer</h3>
+        <p>Glissez et déposez des composants ici</p>
+        <div class="empty-hints">
+          <div class="hint-item">
+            <mat-icon>drag_indicator</mat-icon>
+            <span>Déplacez librement</span>
+          </div>
+          <div class="hint-item">
+            <mat-icon>grid_on</mat-icon>
+            <span>Snap to grid disponible</span>
+          </div>
+          <div class="hint-item">
+            <mat-icon>layers</mat-icon>
+            <span>Gestion des calques</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Grid overlay when snap is enabled -->
+      <div class="grid-overlay" *ngIf="snapToGrid"></div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
